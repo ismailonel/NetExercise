@@ -1,0 +1,38 @@
+﻿<div class="jumbotron">
+    <h2>Net Exercise</h2>
+
+    <p class="lead">Please enter the input text</p>
+    <p><input id="BtnConvert" type="submit" value="Convert to XML" class="btn btn-primary btn-lg"></p>
+    <textarea id="InputText" rows="25" cols="40" placeholder="Input Text" required></textarea>
+    <textarea id="OutputText" rows="30" cols="60" class="xmlTextArea"></textarea>
+
+</div>
+
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+
+<script>
+
+    var uri = '../api/exercise/';
+
+    $(document).ready(function () {
+        $("#BtnConvert").click(function () {
+            $('#OutputText').val('');
+
+            var inputText = $.trim($("#InputText").val());
+
+            if (inputText == "") {
+                $("#OutputText").val("Please enter input text!");
+                return;
+            }
+
+            $.post(uri, { text: inputText})
+                .done(function (data) {
+                    $("#OutputText").val(data);
+                }).
+                fail(function (xhr, status, error) {
+                    $("#OutputText").val("Error occured!");
+                });
+        })
+    });
+
+</script>
